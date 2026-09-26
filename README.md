@@ -4,7 +4,7 @@ Transformation d'un ancien PC portable ASUS en serveur personnel : DNS filtrant,
 
 Ce projet permet de réutiliser du matériel existant tout en pratiquant l'administration Linux, Docker et la gestion d'un réseau domestique. L'accès distant passe par WireGuard ; les interfaces des applications restent destinées au réseau local et au VPN.
 
-> Ce README reprend le compte rendu du homelab. Il décrit la configuration rapportée, sans constituer un audit du serveur. Les sauvegardes prévues et les évolutions sont identifiées séparément. Aucun secret ni aucune IP publique ne sont inclus.
+
 
 ## Sommaire
 
@@ -21,10 +21,10 @@ Ce projet permet de réutiliser du matériel existant tout en pratiquant l'admin
 
 | Élément | Configuration rapportée |
 | --- | --- |
-| Machine | Ancien PC portable ASUS |
+| Machine | PC portable ASUS |
 | Processeur | 2 cœurs |
 | Mémoire | 6 Go de RAM |
-| Stockage | HDD d'environ 686 Go |
+| Stockage | ~ 686 Go |
 | Système | Xubuntu 26.04 LTS |
 | Connexion | Ethernet |
 | Adresse locale réservée | `192.168.1.187` |
