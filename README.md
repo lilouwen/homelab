@@ -230,4 +230,4 @@ Tous les services reposent sur une seule machine et un seul disque : une panne p
 - [ ] Intégrer un appareil LILYGO comme console du homelab.
 - [ ] Évaluer une suite bureautique intégrée à Nextcloud.
 
-Gitea a été envisagé, mais son installation n'est pas confirmée et aucun besoin immédiat n'a été retenu. Il ne fait donc pas partie des services installés présentés ici.
+
