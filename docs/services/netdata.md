@@ -1,53 +1,83 @@
-# Netdata
+# Netdata · CPU / memory / disk / network metrics
 
 [← Service directory](README.md) · [Repository home](../../README.md)
 
 **Category:** Monitoring  
-**Function:** System metrics  
-**Reported access / ports:** 19999/TCP
+**Reported interface:** 19999/TCP (historical mapping)
 
-## Purpose
+> **Status: historical documentation.** The host is not available for a live check. No assertion below verifies that this service is currently running or secure.
 
-CPU, RAM, disk and network observability.
+## 01 // Purpose
 
-## Documented project notes
+The existing README describes Netdata monitoring CPU, RAM, swap, HDD I/O, disk, network traffic, processes and load. The active deployment method and listening interface require verification.
 
-Netdata provides infrastructure performance monitoring.
+## 02 // Dependencies and design considerations
 
-Key metrics include:
+- The HDD and 6 GB RAM make storage I/O and memory utilization important.
+- Resource telemetry does not replace application availability checks from Uptime Kuma.
+- Publicly exposed metrics can reveal host and process information.
 
-| Metric | Purpose |
+## 03 // Observability and verification
+
+**Questions to resolve when the homelab is back online:**
+
+- Verify whether Netdata is a system service or container on this host.
+- Capture a baseline after the homelab has stabilized under normal workload.
+- Restrict dashboard access to intended LAN/VPN clients.
+
+### Read-only inspection commands
+
+These are candidate commands for a future authorized local check. Some tools or service names may be absent depending on deployment method; do not treat their output as already collected.
+
+```bash
+# Check possible host installation
+systemctl is-active netdata
+# Check a possible container installation
+sudo docker ps -a --filter 'name=netdata' --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+# Inspect the reported listener
+sudo ss -lntp | grep ':19999'
+```
+
+**Do not publish unredacted command output:** logs and diagnostics may include internal addresses, account names, peer identifiers or configuration details.
+
+### Acceptance tests
+
+| Check | Expected/interpretation |
 |---|---|
-| CPU Usage | Monitor processor utilization |
-| RAM Usage | Identify memory pressure |
-| Swap Usage | Detect memory limitations |
-| Disk I/O | Analyze storage bottlenecks |
-| Disk Usage | Monitor available storage |
-| Network Traffic | Analyze network activity |
-| System Load | Evaluate host performance |
-| Processes | Identify resource-intensive applications |
+| CPU/memory charts | Graphs update with the current host metrics |
+| Disk I/O | Read/write activity visible and correlates with storage workloads |
+| Access model | Metrics interface unavailable to unauthorized clients |
 
-### Hardware Monitoring Focus
+## 04 // Troubleshooting
 
-Because the server relies on an HDD and has only 6 GB of RAM, storage I/O and memory consumption are especially important.
+| Symptom | Diagnostic direction |
+|---|---|
+| Blank charts | Collector health, privileges and data-source access. |
+| Very high disk wait | Storage saturation, Nextcloud/database workload and HDD health. |
+| UI unavailable | Service state, listener and firewall rules. |
 
-These measurements can help determine when hardware upgrades become necessary.
+## 05 // Security and data protection
 
-> Historical deployment notes are not a live validation. Do not publish credentials, keys, tokens, private files or identifying screenshots.
+- Keep only sanitized performance captures in Git.
+- Config backup if custom alarms and collector overrides are important.
+- Document baseline measurements without exposing host identifiers.
 
-## Validation checklist
+See [Security & hardening](../security.md) and [Backup & recovery](../backup-recovery.md) for cross-service requirements.
 
-- [ ] Verify the service is installed and its current runtime state
-- [ ] Confirm listening interfaces, ports and network access
-- [ ] Review permissions, authentication and secret handling
-- [ ] Add a redacted screenshot or configuration example once verified
+## 06 // Implementation evidence to add
 
-## Related documents
+- [ ] Date of latest successful test and software version
+- [ ] Sanitized screenshots (only if useful)
+- [ ] Verified deployment type and actual listeners
+- [ ] Port restrictions, service dependencies and restart behavior
+- [ ] Recovery procedure and tested outcome, if stateful
 
-- [Network architecture](../network-architecture.md)
-- [Network ports](../network-ports.md)
-- [Security & hardening](../security.md)
-- [Backup & recovery](../backup-recovery.md)
+The tracking workflow is described in [Verification playbook](../guides/verification.md).
+
+## Related services
+
+- [uptime-kuma](uptime-kuma.md)
+- [docker](docker.md)
 
 ---
 

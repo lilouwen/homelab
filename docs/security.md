@@ -1,5 +1,7 @@
 # Security & hardening
 
+> **Documentation status:** This page reflects historical project notes. Recheck versions, ports and service states on the live host before updating statements of fact.
+
 ## Security and Hardening
 
 Security is a core objective of the homelab.
@@ -39,6 +41,18 @@ Fail2ban is used to help protect SSH against repeated authentication attempts.
 **Credential Protection**
 
 Passwords, VPN private keys, tokens and other secrets are excluded from public documentation.
+
+## Security design review
+
+| Risk | Design intent | Evidence still needed |
+|---|---|---|
+| Unintended public service exposure | VPN-gated management interfaces | Router, IPv4/IPv6, Docker port and firewall audit |
+| SSH credential attacks | Fail2ban and stronger SSH authentication | Effective SSH config, jail status and permitted source networks |
+| Exposed private files | Authentication and restricted access | Samba ACL test; Nextcloud/Vaultwarden access check |
+| Configuration leakage | Keep secrets outside public repository | Redaction review and private credential storage |
+| Single host or HDD failure | Verified recoverable independent backups | Scheduled job check and restore test |
+
+[Verification playbook](guides/verification.md) · [Backup restoration test](guides/backup-restore-test.md)
 
 ## Security Improvements
 

@@ -1,52 +1,80 @@
-# Uptime Kuma
+# Uptime Kuma · Service availability checks
 
 [← Service directory](README.md) · [Repository home](../../README.md)
 
 **Category:** Monitoring  
-**Function:** Availability monitor  
-**Reported access / ports:** 3001/TCP
+**Reported interface:** 3001/TCP (historical mapping)
 
-## Purpose
+> **Status: historical documentation.** The host is not available for a live check. No assertion below verifies that this service is currently running or secure.
 
-Track service uptime and latency.
+## 01 // Purpose
 
-## Documented project notes
+The previous documentation lists Pi-hole, Portainer, Vaultwarden, Netdata, Nextcloud, SSH and Freebox among the monitored services. Current probes and notifications have not been checked.
 
-Uptime Kuma provides service availability monitoring.
+## 02 // Dependencies and design considerations
 
-The documented monitoring targets include:
+- Probes show perspective-specific availability, not proof of service security.
+- Alerts require notification channels to be configured and tested.
+- Local monitoring on the same host will fail to report outages if the host is down unless external monitoring is available.
 
-- Pi-hole.
-- Portainer.
-- Vaultwarden.
-- Netdata.
-- Nextcloud.
-- SSH.
-- Freebox.
+## 03 // Observability and verification
 
-### Monitoring Objectives
+**Questions to resolve when the homelab is back online:**
 
-- Detect service unavailability.
-- Monitor response times.
-- Maintain availability history.
-- Identify recurring failures.
-- Configure notifications for important incidents.
+- Verify monitor names, types, timeouts and polling intervals.
+- Identify notifications and run a non-destructive test alert.
+- Distinguish LAN-only, VPN-only and application-health checks.
 
-> Historical deployment notes are not a live validation. Do not publish credentials, keys, tokens, private files or identifying screenshots.
+### Read-only inspection commands
 
-## Validation checklist
+These are candidate commands for a future authorized local check. Some tools or service names may be absent depending on deployment method; do not treat their output as already collected.
 
-- [ ] Verify the service is installed and its current runtime state
-- [ ] Confirm listening interfaces, ports and network access
-- [ ] Review permissions, authentication and secret handling
-- [ ] Add a redacted screenshot or configuration example once verified
+```bash
+# Confirm monitor container and reported host-port binding
+sudo docker ps -a --filter 'name=uptime-kuma' --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+```
 
-## Related documents
+**Do not publish unredacted command output:** logs and diagnostics may include internal addresses, account names, peer identifiers or configuration details.
 
-- [Network architecture](../network-architecture.md)
-- [Network ports](../network-ports.md)
-- [Security & hardening](../security.md)
-- [Backup & recovery](../backup-recovery.md)
+### Acceptance tests
+
+| Check | Expected/interpretation |
+|---|---|
+| Probe status | A known available service passes the configured check |
+| Alerting | Test notification reaches the recipient |
+| Real failure | A controlled maintenance window produces expected detection |
+
+## 04 // Troubleshooting
+
+| Symptom | Diagnostic direction |
+|---|---|
+| False negative | Monitor host reachability, DNS/TLS chain and timeout. |
+| Missing notifications | Provider token, notification method, retry settings and test button. |
+| Unexpected green state | Check whether probe hits the real application endpoint rather than a generic port. |
+
+## 05 // Security and data protection
+
+- Protect monitoring configuration/state if useful for incident history.
+- Do not publish notification secrets or internal URLs embedded in monitor definitions.
+- Use sanitized screenshots for the public showcase.
+
+See [Security & hardening](../security.md) and [Backup & recovery](../backup-recovery.md) for cross-service requirements.
+
+## 06 // Implementation evidence to add
+
+- [ ] Date of latest successful test and software version
+- [ ] Sanitized screenshots (only if useful)
+- [ ] Verified deployment type and actual listeners
+- [ ] Port restrictions, service dependencies and restart behavior
+- [ ] Recovery procedure and tested outcome, if stateful
+
+The tracking workflow is described in [Verification playbook](../guides/verification.md).
+
+## Related services
+
+- [netdata](netdata.md)
+- [homepage](homepage.md)
+- [docker](docker.md)
 
 ---
 

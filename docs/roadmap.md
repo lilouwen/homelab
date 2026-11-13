@@ -1,8 +1,14 @@
 # Project roadmap
 
+> **Documentation status:** This page reflects historical project notes. Recheck versions, ports and service states on the live host before updating statements of fact.
+
 ## Project Roadmap
 
 The project will evolve incrementally, focusing on security, resilience, performance and automation.
+
+## How completion is recorded
+
+Check a task only when the intended change is verified. Add a dated entry in the [lab journal](../journal/README.md) and link evidence (redacted screenshot, configuration example or command summary).
 
 ## Phase 1 — Infrastructure Documentation
 

@@ -1,42 +1,84 @@
-# Nextcloud
+# Nextcloud · Self-hosted cloud and files
 
 [← Service directory](README.md) · [Repository home](../../README.md)
 
 **Category:** Containers & applications  
-**Function:** Private cloud  
-**Reported access / ports:** 8081/TCP
+**Reported interface:** 8081/TCP (historical mapping)
 
-## Purpose
+> **Status: historical documentation.** The host is not available for a live check. No assertion below verifies that this service is currently running or secure.
 
-Personal storage with MariaDB and Redis.
+## 01 // Purpose
 
-## Documented project notes
+The recorded Docker inventory lists nextcloud with nextcloud-db (MariaDB) and nextcloud-redis (Redis). Current versions, data locations and HTTPS configuration are not verified.
 
-Nextcloud provides personal cloud storage and file management.
+## 02 // Dependencies and design considerations
 
-The documented deployment includes:
+- Nextcloud uses application data and configuration in addition to its database.
+- MariaDB and Redis are internal dependencies; the records do not show them publicly exposed.
+- A reverse proxy/HTTPS migration is planned, not confirmed as deployed.
 
-- Nextcloud application.
-- MariaDB database.
-- Redis service.
+## 03 // Observability and verification
 
-Future improvements may include additional collaboration features and more robust backup procedures.
+**Questions to resolve when the homelab is back online:**
 
-> Historical deployment notes are not a live validation. Do not publish credentials, keys, tokens, private files or identifying screenshots.
+- Identify the existing app, data and database volumes before changing anything.
+- Review trusted domains, HTTPS, reverse proxy and access policy.
+- Verify that DB/Redis have no unintended host publication.
 
-## Validation checklist
+### Read-only inspection commands
 
-- [ ] Verify the service is installed and its current runtime state
-- [ ] Confirm listening interfaces, ports and network access
-- [ ] Review permissions, authentication and secret handling
-- [ ] Add a redacted screenshot or configuration example once verified
+These are candidate commands for a future authorized local check. Some tools or service names may be absent depending on deployment method; do not treat their output as already collected.
 
-## Related documents
+```bash
+# Inspect recorded containers and their current state
+sudo docker ps -a --filter 'name=nextcloud' --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+# Nextcloud occ is optional: only after confirming the image/container and user
+sudo docker exec -u www-data nextcloud php occ status
+```
 
-- [Network architecture](../network-architecture.md)
-- [Network ports](../network-ports.md)
-- [Security & hardening](../security.md)
-- [Backup & recovery](../backup-recovery.md)
+**Do not publish unredacted command output:** logs and diagnostics may include internal addresses, account names, peer identifiers or configuration details.
+
+### Acceptance tests
+
+| Check | Expected/interpretation |
+|---|---|
+| Application reachability | Authorized client reaches login via permitted network |
+| Database dependency | Application can access its DB without external exposure |
+| Redis dependency | Configured cache/locking works as intended |
+| Backup restore | App + data + DB restore to a coherent state |
+
+## 04 // Troubleshooting
+
+| Symptom | Diagnostic direction |
+|---|---|
+| Internal server error | Application logs, database connectivity, permissions, app maintenance state. |
+| Slow file operations | HDD I/O, available RAM, database and locking/cache configuration. |
+| Broken links/redirects | Trusted domains, reverse proxy headers and HTTPS settings. |
+
+## 05 // Security and data protection
+
+- Back up Nextcloud files, configuration and MariaDB using a consistent process.
+- Test restore with the matching application version and required service dependencies.
+- Never publish documents, database exports or real configuration secrets.
+
+See [Security & hardening](../security.md) and [Backup & recovery](../backup-recovery.md) for cross-service requirements.
+
+## 06 // Implementation evidence to add
+
+- [ ] Date of latest successful test and software version
+- [ ] Sanitized screenshots (only if useful)
+- [ ] Verified deployment type and actual listeners
+- [ ] Port restrictions, service dependencies and restart behavior
+- [ ] Recovery procedure and tested outcome, if stateful
+
+The tracking workflow is described in [Verification playbook](../guides/verification.md).
+
+## Related services
+
+- [mariadb](mariadb.md)
+- [redis](redis.md)
+- [docker](docker.md)
+- [vaultwarden](vaultwarden.md)
 
 ---
 

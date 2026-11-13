@@ -1,88 +1,86 @@
-# Docker
+# Docker · Container runtime and deployment inventory
 
 [← Service directory](README.md) · [Repository home](../../README.md)
 
 **Category:** Containers & applications  
-**Function:** Container runtime  
-**Reported access / ports:** Depends on container mappings
+**Reported interface:** Published ports vary by container
 
-## Purpose
+> **Status: historical documentation.** The host is not available for a live check. No assertion below verifies that this service is currently running or secure.
 
-Run the documented self-hosted containers.
+## 01 // Purpose
 
-## Documented project notes
+The previously recorded containers are homepage, nextcloud, nextcloud-db, nextcloud-redis, vaultwarden, uptime-kuma and portainer. This list is historical; current running states are unknown.
 
-Docker is used to deploy and manage multiple self-hosted applications.
+## 02 // Dependencies and design considerations
 
-Portainer provides a web-based management interface for containers, images, networks, volumes and stacks.
+- Containers may depend on host storage, Docker networks, database services and published ports.
+- Docker-published ports can expose services outside an assumed host-firewall boundary.
+- Stateful services need consistent volume/database backups, not only image redeployment.
 
-## Containerized Services
+## 03 // Observability and verification
 
-| Container | Description |
+**Questions to resolve when the homelab is back online:**
+
+- Rebuild an inventory of containers and their images, networks, health and resource usage.
+- Review host port bindings including 0.0.0.0 and IPv6.
+- Document Compose stacks only after redacting all secrets and identifiers.
+
+### Read-only inspection commands
+
+These are candidate commands for a future authorized local check. Some tools or service names may be absent depending on deployment method; do not treat their output as already collected.
+
+```bash
+# Inventory of running and stopped containers
+sudo docker ps -a --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'
+# List networks and volume names
+sudo docker network ls
+sudo docker volume ls
+# Check Compose projects where supported
+sudo docker compose ls
+```
+
+**Do not publish unredacted command output:** logs and diagnostics may include internal addresses, account names, peer identifiers or configuration details.
+
+### Acceptance tests
+
+| Check | Expected/interpretation |
 |---|---|
-| `homepage` | Central dashboard for homelab applications |
-| `nextcloud` | Private cloud and file collaboration |
-| `nextcloud-db` | MariaDB database for Nextcloud |
-| `nextcloud-redis` | Redis service associated with Nextcloud |
-| `vaultwarden` | Self-hosted password manager |
-| `uptime-kuma` | Service availability monitoring |
-| `portainer` | Docker management interface |
+| Container inventory | Listed containers match the actual installation |
+| Internal dependencies | Nextcloud can reach its database and Redis |
+| Port boundaries | Only intended host interfaces accept published ports |
+| Restart | Declared restart policies behave as expected after maintenance |
 
-These containers were identified in the deployment documentation. Their current runtime state should be verified on the server.
+## 04 // Troubleshooting
 
-## Homepage
+| Symptom | Diagnostic direction |
+|---|---|
+| Container crash loop | Logs, image compatibility, file permissions and environment (redact secrets). |
+| Port conflict | Another host process/container already listens on the port. |
+| Storage issue | Volume mounts, free space and permissions; inspect before removing any volume. |
 
-Homepage acts as the central entry point for the homelab.
+## 05 // Security and data protection
 
-It provides organized access to self-hosted applications and infrastructure management tools.
+- Back up definitions separately from secrets.
+- Use application-consistent database dumps where necessary.
+- Test redeployment in a controlled environment before treating it as recovery.
 
-## Nextcloud
+See [Security & hardening](../security.md) and [Backup & recovery](../backup-recovery.md) for cross-service requirements.
 
-Nextcloud provides personal cloud storage and file management.
+## 06 // Implementation evidence to add
 
-The documented deployment includes:
+- [ ] Date of latest successful test and software version
+- [ ] Sanitized screenshots (only if useful)
+- [ ] Verified deployment type and actual listeners
+- [ ] Port restrictions, service dependencies and restart behavior
+- [ ] Recovery procedure and tested outcome, if stateful
 
-- Nextcloud application.
-- MariaDB database.
-- Redis service.
+The tracking workflow is described in [Verification playbook](../guides/verification.md).
 
-Future improvements may include additional collaboration features and more robust backup procedures.
+## Related services
 
-## Vaultwarden
-
-Vaultwarden provides a self-hosted password management service compatible with Bitwarden clients.
-
-The documented configuration uses an Argon2id-hashed administration secret.
-
-The secret and its hash must remain outside this public repository.
-
-## Portainer
-
-Portainer provides centralized Docker management.
-
-Main functions include:
-
-- Container inspection.
-- Image management.
-- Docker volume administration.
-- Docker networking.
-- Stack deployment and maintenance.
-
-> Historical deployment notes are not a live validation. Do not publish credentials, keys, tokens, private files or identifying screenshots.
-
-## Validation checklist
-
-- [ ] Verify the service is installed and its current runtime state
-- [ ] Confirm listening interfaces, ports and network access
-- [ ] Review permissions, authentication and secret handling
-- [ ] Add a redacted screenshot or configuration example once verified
-
-## Related documents
-
-- [Network architecture](../network-architecture.md)
-- [Network ports](../network-ports.md)
-- [Security & hardening](../security.md)
-- [Backup & recovery](../backup-recovery.md)
+- [portainer](portainer.md)
+- [nextcloud](nextcloud.md)
+- [vaultwarden](vaultwarden.md)
 
 ---
 

@@ -1,38 +1,80 @@
-# Vaultwarden
+# Vaultwarden · Password vault
 
 [← Service directory](README.md) · [Repository home](../../README.md)
 
 **Category:** Containers & applications  
-**Function:** Password vault  
-**Reported access / ports:** 8080/TCP
+**Reported interface:** 8080/TCP (historical mapping)
 
-## Purpose
+> **Status: historical documentation.** The host is not available for a live check. No assertion below verifies that this service is currently running or secure.
 
-Self-hosted password management.
+## 01 // Purpose
 
-## Documented project notes
+Vaultwarden is recorded as a container for Bitwarden-compatible clients. Previous notes mention an Argon2id-hashed administration token; neither the token nor its hash should appear in Git.
 
-Vaultwarden provides a self-hosted password management service compatible with Bitwarden clients.
+## 02 // Dependencies and design considerations
 
-The documented configuration uses an Argon2id-hashed administration secret.
+- Account data and encryption-sensitive metadata require strict backup privacy.
+- Using a credential vault over plain HTTP can be unsafe even if access is private; internal HTTPS is a priority for validation.
+- Administrative access must be restricted and audited.
 
-The secret and its hash must remain outside this public repository.
+## 03 // Observability and verification
 
-> Historical deployment notes are not a live validation. Do not publish credentials, keys, tokens, private files or identifying screenshots.
+**Questions to resolve when the homelab is back online:**
 
-## Validation checklist
+- Verify the accessible endpoint and confirm HTTPS/trusted client behavior.
+- Review who can access the admin interface and account registration policy.
+- Identify the persistent database/data volume and a secure backup method.
 
-- [ ] Verify the service is installed and its current runtime state
-- [ ] Confirm listening interfaces, ports and network access
-- [ ] Review permissions, authentication and secret handling
-- [ ] Add a redacted screenshot or configuration example once verified
+### Read-only inspection commands
 
-## Related documents
+These are candidate commands for a future authorized local check. Some tools or service names may be absent depending on deployment method; do not treat their output as already collected.
 
-- [Network architecture](../network-architecture.md)
-- [Network ports](../network-ports.md)
-- [Security & hardening](../security.md)
-- [Backup & recovery](../backup-recovery.md)
+```bash
+# Check the Vaultwarden container and network mappings
+sudo docker ps -a --filter 'name=vaultwarden' --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+```
+
+**Do not publish unredacted command output:** logs and diagnostics may include internal addresses, account names, peer identifiers or configuration details.
+
+### Acceptance tests
+
+| Check | Expected/interpretation |
+|---|---|
+| Client login | Expected authorized client can authenticate over a trusted secure connection |
+| Admin security | Administrative interface is access-controlled |
+| Restore | Encrypted backup restores to an isolated test instance |
+
+## 04 // Troubleshooting
+
+| Symptom | Diagnostic direction |
+|---|---|
+| Cannot connect | Container availability, internal DNS, TLS and network policy. |
+| Login fails | Client/server version compatibility and credential policy. |
+| Database issue | Volume permissions and consistent backup state. |
+
+## 05 // Security and data protection
+
+- Secure, encrypted, versioned backup of Vaultwarden data is important.
+- Never publish the database, real secrets or Argon2id administration hash.
+- Test recovery without revealing user vault contents.
+
+See [Security & hardening](../security.md) and [Backup & recovery](../backup-recovery.md) for cross-service requirements.
+
+## 06 // Implementation evidence to add
+
+- [ ] Date of latest successful test and software version
+- [ ] Sanitized screenshots (only if useful)
+- [ ] Verified deployment type and actual listeners
+- [ ] Port restrictions, service dependencies and restart behavior
+- [ ] Recovery procedure and tested outcome, if stateful
+
+The tracking workflow is described in [Verification playbook](../guides/verification.md).
+
+## Related services
+
+- [docker](docker.md)
+- [portainer](portainer.md)
+- [nextcloud](nextcloud.md)
 
 ---
 
