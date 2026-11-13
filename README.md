@@ -1,3 +1,20 @@
+
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f0c29,50:302b63,100:24243e&height=220&section=header&text=LILOUWEN%20HOMELAB&fontSize=40&fontColor=ffffff&animation=fadeIn" width="100%" />
+
+### NETWORK INFRASTRUCTURE · SELF-HOSTING · SECURITY
+
+**Transforming an ASUS laptop into a self-hosted Linux infrastructure.**
+
+![Linux](https://img.shields.io/badge/Xubuntu-Linux-6366F1?style=for-the-badge&logo=ubuntu&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Containers-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![WireGuard](https://img.shields.io/badge/WireGuard-VPN-88171A?style=for-the-badge&logo=wireguard&logoColor=white)
+![Security](https://img.shields.io/badge/Focus-Cybersecurity-302b63?style=for-the-badge)
+
+</div>
+
+
 # Homelab Xubuntu — Réseau, cloud et sécurité
 
 Transformation d'un ancien PC portable ASUS en serveur personnel : DNS filtrant, VPN, cloud, coffre de mots de passe, partage de fichiers et supervision.
