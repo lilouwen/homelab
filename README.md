@@ -87,6 +87,10 @@ flowchart TB
 | Improvement milestones | [Roadmap](docs/roadmap.md) |
 | Individual service pages | [All services](docs/services/README.md) |
 
+## Documentation website
+
+A searchable MkDocs site with dark/light themes and service-by-service navigation is prepared in this repository. **GitHub Pages must be enabled before the website is publicly available.** See the [publication instructions](docs/guides/publishing-site.md).
+
 ## Operations and reproducibility
 
 | Playbook | Purpose |
