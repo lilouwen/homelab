@@ -1,42 +1,81 @@
-# Portainer
+# Portainer · Docker management interface
 
 [← Service directory](README.md) · [Repository home](../../README.md)
 
 **Category:** Containers & applications  
-**Function:** Docker administration  
-**Reported access / ports:** 9443/TCP
+**Reported interface:** 9443/TCP (documented)
 
-## Purpose
+> **Status: historical documentation.** The host is not available for a live check. No assertion below verifies that this service is currently running or secure.
 
-Manage Docker containers, volumes and stacks.
+## 01 // Purpose
 
-## Documented project notes
+Portainer is documented as the interface for containers, images, networks, volumes and stacks. A historical container named portainer appears in the inventory.
 
-Portainer provides centralized Docker management.
+## 02 // Dependencies and design considerations
 
-Main functions include:
+- Portainer requires controlled access to a Docker environment.
+- Administration permissions can have extensive host/container impact.
+- Docker access and HTTPS trust must be reviewed as part of the security model.
 
-- Container inspection.
-- Image management.
-- Docker volume administration.
-- Docker networking.
-- Stack deployment and maintenance.
+## 03 // Observability and verification
 
-> Historical deployment notes are not a live validation. Do not publish credentials, keys, tokens, private files or identifying screenshots.
+**Questions to resolve when the homelab is back online:**
 
-## Validation checklist
+- Verify the running container and exact host port binding.
+- Review administrative roles, accounts and session security.
+- Capture a sanitized view without hostnames, tokens or private endpoints.
 
-- [ ] Verify the service is installed and its current runtime state
-- [ ] Confirm listening interfaces, ports and network access
-- [ ] Review permissions, authentication and secret handling
-- [ ] Add a redacted screenshot or configuration example once verified
+### Read-only inspection commands
 
-## Related documents
+These are candidate commands for a future authorized local check. Some tools or service names may be absent depending on deployment method; do not treat their output as already collected.
 
-- [Network architecture](../network-architecture.md)
-- [Network ports](../network-ports.md)
-- [Security & hardening](../security.md)
-- [Backup & recovery](../backup-recovery.md)
+```bash
+# Find the container and port mapping
+sudo docker ps --filter 'name=portainer' --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+# Inspect service state on the expected host listener
+sudo ss -lntp | grep ':9443'
+```
+
+**Do not publish unredacted command output:** logs and diagnostics may include internal addresses, account names, peer identifiers or configuration details.
+
+### Acceptance tests
+
+| Check | Expected/interpretation |
+|---|---|
+| LAN/VPN access | Authorized user reaches the expected HTTPS management page |
+| Credentials | Unprivileged or unauthenticated access is rejected |
+| Service inventory | Docker lists correspond to expected deployed applications |
+
+## 04 // Troubleshooting
+
+| Symptom | Diagnostic direction |
+|---|---|
+| Page inaccessible | Container state, port binding, TLS and firewall. |
+| Docker unavailable | Docker daemon state and Portainer environment connection. |
+| Permission issues | Portainer roles, socket/agent connectivity and deployment constraints. |
+
+## 05 // Security and data protection
+
+- Back up Portainer configuration/volume securely if required.
+- Document the management architecture without copying administrative tokens.
+- Do not publish Docker socket paths as automatically secure; review exposure.
+
+See [Security & hardening](../security.md) and [Backup & recovery](../backup-recovery.md) for cross-service requirements.
+
+## 06 // Implementation evidence to add
+
+- [ ] Date of latest successful test and software version
+- [ ] Sanitized screenshots (only if useful)
+- [ ] Verified deployment type and actual listeners
+- [ ] Port restrictions, service dependencies and restart behavior
+- [ ] Recovery procedure and tested outcome, if stateful
+
+The tracking workflow is described in [Verification playbook](../guides/verification.md).
+
+## Related services
+
+- [docker](docker.md)
+- [uptime-kuma](uptime-kuma.md)
 
 ---
 

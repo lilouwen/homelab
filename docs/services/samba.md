@@ -1,36 +1,83 @@
-# Samba
+# Samba · Authenticated Windows file sharing
 
 [← Service directory](README.md) · [Repository home](../../README.md)
 
 **Category:** Networking & security  
-**Function:** Network file sharing  
-**Reported access / ports:** 445/TCP typical; verify
+**Reported interface:** 445/TCP typical; confirm effective listeners
 
-## Purpose
+> **Status: historical documentation.** The host is not available for a live check. No assertion below verifies that this service is currently running or secure.
 
-Authenticated SMB file sharing.
+## 01 // Purpose
 
-## Documented project notes
+The prior deployment notes describe an authenticated SMB share for Windows clients, with guest access disabled. The current export configuration has not been retrieved.
 
-Samba provides file sharing between the Linux server and Windows devices.
+## 02 // Dependencies and design considerations
 
-The documented configuration uses authenticated access rather than guest access.
+- Filesystem permissions and Samba share permissions must both authorize the intended users.
+- Windows clients must have a network path and compatible SMB dialect.
+- Network policy should restrict file sharing to trusted LAN/VPN clients.
 
-> Historical deployment notes are not a live validation. Do not publish credentials, keys, tokens, private files or identifying screenshots.
+## 03 // Observability and verification
 
-## Validation checklist
+**Questions to resolve when the homelab is back online:**
 
-- [ ] Verify the service is installed and its current runtime state
-- [ ] Confirm listening interfaces, ports and network access
-- [ ] Review permissions, authentication and secret handling
-- [ ] Add a redacted screenshot or configuration example once verified
+- Review the effective share list, path permissions and guest access.
+- Verify SMB dialects and disable outdated/unused access paths according to the host requirements.
+- Test both authorized and unauthorized clients.
 
-## Related documents
+### Read-only inspection commands
 
-- [Network architecture](../network-architecture.md)
-- [Network ports](../network-ports.md)
-- [Security & hardening](../security.md)
-- [Backup & recovery](../backup-recovery.md)
+These are candidate commands for a future authorized local check. Some tools or service names may be absent depending on deployment method; do not treat their output as already collected.
+
+```bash
+# Validate Samba configuration syntax and report effective shares
+sudo testparm -s
+# Inspect SMB listeners
+sudo ss -lntp | grep ':445'
+# Check active Samba connections (sensitive: redact before sharing)
+sudo smbstatus
+```
+
+**Do not publish unredacted command output:** logs and diagnostics may include internal addresses, account names, peer identifiers or configuration details.
+
+### Acceptance tests
+
+| Check | Expected/interpretation |
+|---|---|
+| Authorized access | Permitted Windows account can read/write as intended |
+| Guest access | Unauthenticated clients cannot browse restricted shares |
+| Access boundary | SMB is unavailable from non-trusted networks |
+
+## 04 // Troubleshooting
+
+| Symptom | Diagnostic direction |
+|---|---|
+| Share not visible | Client discovery, SMB service and network path. |
+| Authentication rejected | Account mapping and Samba user state. |
+| Permission denied | Unix file permissions, ACLs and Samba share restrictions. |
+
+## 05 // Security and data protection
+
+- Important shared files require independent, versioned backups.
+- Do not treat Syncthing/Nextcloud synchronization as backup.
+- Record access-control decisions without publishing usernames or sensitive folder names.
+
+See [Security & hardening](../security.md) and [Backup & recovery](../backup-recovery.md) for cross-service requirements.
+
+## 06 // Implementation evidence to add
+
+- [ ] Date of latest successful test and software version
+- [ ] Sanitized screenshots (only if useful)
+- [ ] Verified deployment type and actual listeners
+- [ ] Port restrictions, service dependencies and restart behavior
+- [ ] Recovery procedure and tested outcome, if stateful
+
+The tracking workflow is described in [Verification playbook](../guides/verification.md).
+
+## Related services
+
+- [syncthing](syncthing.md)
+- [nextcloud](nextcloud.md)
 
 ---
 
