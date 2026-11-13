@@ -1,0 +1,93 @@
+site_name: LILOUWEN // HOMELAB
+site_description: Network engineering, Linux infrastructure, self-hosting and cybersecurity
+site_author: Owen-Junior Jean
+site_url: https://lilouwen.github.io/homelab/
+repo_url: https://github.com/lilouwen/homelab
+repo_name: lilouwen/homelab
+edit_uri: edit/main/docs/
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: en
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: cyan
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - Home: README.md
+  - Infrastructure:
+      - Hardware: hardware.md
+      - Network architecture: network-architecture.md
+      - Port and access inventory: network-ports.md
+      - Security and hardening: security.md
+      - Backup and recovery: backup-recovery.md
+      - Monitoring: monitoring.md
+      - Roadmap: roadmap.md
+  - Networking & Security:
+      - Pi-hole: services/pi-hole.md
+      - WireGuard VPN: services/wireguard.md
+      - OpenSSH: services/openssh.md
+      - Fail2ban: services/fail2ban.md
+      - Samba: services/samba.md
+      - Syncthing: services/syncthing.md
+  - Containers:
+      - Docker: services/docker.md
+      - Portainer: services/portainer.md
+      - Homepage: services/homepage.md
+      - Nextcloud: services/nextcloud.md
+      - MariaDB: services/mariadb.md
+      - Redis: services/redis.md
+      - Vaultwarden: services/vaultwarden.md
+  - Observability:
+      - Uptime Kuma: services/uptime-kuma.md
+      - Netdata: services/netdata.md
+  - Operations:
+      - Service directory: services/README.md
+      - Verification playbook: guides/verification.md
+      - Troubleshooting: guides/troubleshooting.md
+      - Backup restore testing: guides/backup-restore-test.md
+      - Screenshot safety: guides/screenshots.md
+      - Operations index: guides/README.md
+      - Architecture decisions: decisions/README.md
+      - Publishing the site: guides/publishing-site.md
