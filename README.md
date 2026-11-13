@@ -3,6 +3,12 @@
 <h3 align="center">NETWORK INFRASTRUCTURE · LINUX · SELF-HOSTING · SECURITY</h3>
 <p align="center">An ASUS laptop repurposed as a personal Linux server.<br/>A hands-on lab for network services, containers, secure remote access and monitoring.</p>
 
+<p align="center">
+  <a href="https://github.com/lilouwen/homelab/actions/workflows/docs-ci.yml">
+    <img src="https://github.com/lilouwen/homelab/actions/workflows/docs-ci.yml/badge.svg" alt="Documentation checks"/>
+  </a>
+</p>
+
 ---
 
 ## Project overview
