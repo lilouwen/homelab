@@ -1,5 +1,7 @@
 # Hardware & system
 
+> **Documentation status:** This page reflects historical project notes. Recheck versions, ports and service states on the live host before updating statements of fact.
+
 ## Hardware and System
 
 ## Server Specifications
@@ -12,7 +14,7 @@ The homelab runs on a repurposed ASUS laptop connected to the local network thro
 | Processor | Dual-Core CPU |
 | Memory | 6 GB RAM |
 | Storage | Approximately 686 GB HDD |
-| Operating System | Xubuntu 26.04 LTS |
+| Operating System | Xubuntu 26.04 LTS (reported; version not rechecked) |
 | Connection | Ethernet |
 | Local IP | `192.168.1.187` |
 | Gateway | Freebox — `192.168.1.254` |

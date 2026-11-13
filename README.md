@@ -81,6 +81,17 @@ flowchart TB
 | Improvement milestones | [Roadmap](docs/roadmap.md) |
 | Individual service pages | [All services](docs/services/README.md) |
 
+## Operations and reproducibility
+
+| Playbook | Purpose |
+|---|---|
+| [Verification & evidence](docs/guides/verification.md) | Validate the host, network paths, containers and services without guessing |
+| [Troubleshooting](docs/guides/troubleshooting.md) | Diagnose failures step by step |
+| [Backup restoration test](docs/guides/backup-restore-test.md) | Validate that proposed backups are recoverable |
+| [Safe screenshots](docs/guides/screenshots.md) | Prepare portfolio evidence without exposing identifiers |
+| [Lab journal](journal/README.md) | Record changes, tests, incidents and technical lessons |
+| [Architecture decisions](docs/decisions/README.md) | Record why a design was chosen |
+
 ## Next milestones
 
 - [ ] Verify current OS version and the deployed service inventory
@@ -90,7 +101,7 @@ flowchart TB
 - [ ] Improve SSH authentication and internal HTTPS
 - [ ] Plan an SSD upgrade for the HDD-based host
 
-> **Security:** No VPN private keys, .env files, account credentials, backup archives or unredacted screenshots belong in this public repository.
+> **Security:** No VPN private keys, `.env` files, account credentials, backup archives or unredacted screenshots belong in this public repository. See [SECURITY.md](SECURITY.md).
 
 ---
 

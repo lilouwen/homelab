@@ -1,6 +1,10 @@
 # Network ports
 
+> **Documentation status:** This page reflects historical project notes. Recheck versions, ports and service states on the live host before updating statements of fact.
+
 ## Network Ports and Access
+
+A documented listening port is not proof of Internet exposure. Actual access depends on the bind address, Docker publication, host firewall, Freebox rules, IPv6 routing and client network position. See [verification steps](guides/verification.md).
 
 The following table documents the local services and their associated ports.
 

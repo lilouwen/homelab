@@ -1,5 +1,7 @@
 # Backup & recovery
 
+> **Documentation status:** This page reflects historical project notes. Recheck versions, ports and service states on the live host before updating statements of fact.
+
 ## Backup and Recovery
 
 Backup reliability is essential because the infrastructure currently relies on a single physical machine and storage device.
@@ -41,6 +43,12 @@ The backup process should provide:
 - Consistent database backups.
 - Independent storage copies.
 - Recovery testing.
+
+## Restoration acceptance criteria
+
+A backup counts as **verified** only after a separate restore test demonstrates that files and required application state can be recovered, access controls remain correct, and the evidence is recorded.
+
+For a step-by-step non-production test procedure, see [Backup restoration test](guides/backup-restore-test.md).
 
 ## Recovery Improvements
 

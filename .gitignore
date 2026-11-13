@@ -1,0 +1,40 @@
+# Credentials and environment-specific configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+*.kdbx
+
+# WireGuard private profiles and QR exports
+wg0.conf
+wg-quick.conf
+*wireguard*private*
+*wg*qr*.png
+
+# Database and state exports
+*.sql
+*.sql.gz
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.bak
+*.tar
+*.tar.gz
+*.tgz
+backups/
+dumps/
+private/
+secrets/
+
+# Workstation/editor byproducts
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+__pycache__/

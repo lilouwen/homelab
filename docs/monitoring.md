@@ -1,5 +1,7 @@
 # Monitoring
 
+> **Documentation status:** This page reflects historical project notes. Recheck versions, ports and service states on the live host before updating statements of fact.
+
 ## Monitoring
 
 Monitoring is used to evaluate service availability, system resource consumption and infrastructure health.
@@ -48,6 +50,17 @@ Key metrics include:
 Because the server relies on an HDD and has only 6 GB of RAM, storage I/O and memory consumption are especially important.
 
 These measurements can help determine when hardware upgrades become necessary.
+
+## Signals to investigate
+
+| Signal | Potential interpretation | Investigation |
+|---|---|---|
+| Uptime Kuma reports repeated failures | Network path or service outage | Check target-specific connectivity and application logs |
+| Sustained memory pressure / swap activity | Insufficient RAM for workload | Review container memory and process usage |
+| High HDD I/O wait | Disk throughput bottleneck | Compare application workload and disk metrics |
+| DNS monitor failures | DNS service or path issue | Test resolver from relevant LAN/VPN clients |
+
+Recorded monitoring targets are not guarantees of current monitor configuration. Capture baseline measurements only after the server is available.
 
 ## Monitoring Improvements
 
